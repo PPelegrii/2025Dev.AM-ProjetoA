@@ -7,7 +7,6 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -17,36 +16,34 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.filled.MailOutline
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults.topAppBarColors
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.tooling.preview.Preview
@@ -60,59 +57,61 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             PinlikestTheme {
+                //TelaLogo()
                 HomeScreen()
+                //PinDetails()
                 }
             }
         }
     }
-
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Preview(showBackground = true)
 @Composable
 fun TelaLogo() {
-    Column(
-        verticalArrangement = Arrangement.Center,
-        modifier = Modifier
-            .fillMaxSize()
-            .background(color = Color.White)
-    ) {
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.Center,
-        ) {
-            Icon(
-                imageVector = Icons.Default.FavoriteBorder,
-                contentDescription = "",
-                modifier = Modifier.size(120.dp)
-            )
-        }
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.Center,
-        ) {
-            Text(
-                text="Pinlikest",
-                style = Typography.displayLarge,
-                fontFamily = FontFamily.Serif
-            )
-        }
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.Center,
-        ) {
-            Button(
-                modifier = Modifier.padding(10.dp),
-                colors = ButtonColors(
-                    containerColor = Color.Black,
-                    contentColor = Color.White,
-                    disabledContainerColor = Color.Black,
-                    disabledContentColor = Color.Black
-                ),
-                onClick = { Log.d("botaoEntrar", "usuario-entrou") }
+    Scaffold(
+        containerColor = MaterialTheme.colorScheme.primaryContainer,
+        contentColor = MaterialTheme.colorScheme.primary,
+        content = { paddingValues ->
+            Column(
+                verticalArrangement = Arrangement.Center,
+                modifier = Modifier
+                    .fillMaxSize()
             ) {
-                Text("Explorar suas próximas ideias")
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.Center,
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.FavoriteBorder,
+                        contentDescription = "",
+                        modifier = Modifier.size(120.dp)
+                    )
+                }
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.Center,
+                ) {
+                    Text(
+                        text = "Pinlikest",
+                        style = Typography.displayLarge,
+                        fontFamily = FontFamily.Serif
+                    )
+                }
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.Center,
+                ) {
+                    Button(
+                        modifier = Modifier.padding(10.dp),
+                        onClick = { Log.d("botaoEntrar", "usuario-entrou") }
+                    ) {
+                        Text("Explorar suas próximas ideias")
+                    }
+                }
             }
+
         }
-    }
+    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -120,7 +119,6 @@ fun TelaLogo() {
 @Composable
 fun HomeScreen() {
     Scaffold(
-        //containerColor = Color.Black,
         topBar = {
             TopAppBar(
                 colors = topAppBarColors(
@@ -190,48 +188,46 @@ fun HomeScreen() {
         },
         content = { paddingValues ->
             Row(
-                horizontalArrangement = Arrangement.SpaceAround,
                 verticalAlignment = Alignment.Top,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(paddingValues)
+                    .verticalScroll(rememberScrollState())
             ) {
                 Column(
                     Modifier
                         .padding(8.dp)
-                        .background(color = Color.White)
                         .weight(1f)
                 ) {
-                    PinHome(image = R.drawable.temp1, descricao  = "eu")
-                    PinHome(image = R.drawable.temp4, descricao  = "não")
-                    PinHome(image = R.drawable.temp3, descricao  = "acredito")
-                    PinHome(image = R.drawable.temp4, descricao  = "nisso")
+                    PinHomeTemplate(image = R.drawable.temp1, descricao  = "eu")
+                    PinHomeTemplate(image = R.drawable.temp4, descricao  = "não")
+                    PinHomeTemplate(image = R.drawable.temp3, descricao  = "acredito")
+                    PinHomeTemplate(image = R.drawable.temp4, descricao  = "nisso")
                 }
-
-                Spacer(modifier = Modifier.width(16.dp))
 
                 Column(
                     verticalArrangement = Arrangement.Center,
-                    modifier = Modifier.padding(8.dp)
-                        .background(color = Color.White)
+                    modifier = Modifier
+                        .padding(8.dp)
                         .weight(1f)
                 ) {
-                    PinHome(image = R.drawable.temp5, descricao  = "blah")
-                    PinHome(image = R.drawable.temp2, descricao  = "blah")
-                    PinHome(image = R.drawable.temp1, descricao  = "blah")
-                    PinHome(image = R.drawable.temp4, descricao  = "blah")
+                    PinHomeTemplate(image = R.drawable.temp5, descricao  = "q")
+                    PinHomeTemplate(image = R.drawable.temp2, descricao  = "isso")
+                    PinHomeTemplate(image = R.drawable.temp1, descricao  = "aqui")
+                    PinHomeTemplate(image = R.drawable.temp4, descricao  = "funcionou")
                 }
             }
         }
     )
 }
 @Composable
-fun PinHome(image: Int, descricao: String) {
+fun PinHomeTemplate(image: Int, descricao: String) {
     Image(
         painter = painterResource(image),
         contentDescription = "ImagePin",
         modifier = Modifier
             .fillMaxWidth()
+            .padding(2.dp)
     )
     Card(
         colors = CardDefaults.cardColors(
@@ -254,9 +250,139 @@ fun PinHome(image: Int, descricao: String) {
     }
     Spacer(modifier = Modifier.height(8.dp))
 }
-
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Preview(showBackground = true)
 @Composable
-fun PinDetails() {
+fun PinDetails() { // tudo isso vai passar como argumento dps
+    val image = R.drawable.temp1
+    val tituloPin = "alguem me tira desse sofrimento"
+    val criadorPin = "alguem"
+    val topComentarioPin = "outro alguem"
 
+    Scaffold(
+        containerColor = MaterialTheme.colorScheme.primaryContainer,
+        contentColor = MaterialTheme.colorScheme.primary,
+        content = { paddingValues ->
+            Column(
+                verticalArrangement = Arrangement.Center,
+                modifier = Modifier
+                    .fillMaxWidth()
+            ) {
+                IconButton(
+                    modifier = Modifier
+                        .size(width = 60.dp, height = 80.dp)
+                        .padding(top = 40.dp),
+                    onClick = {
+                        Log.d("botaoBackToHome", "usuario-clicouVoltarParaHome")
+                    }) {
+                    Icon(
+                        imageVector = Icons.Default.KeyboardArrowLeft,
+                        contentDescription = "",
+                        modifier = Modifier.size(40.dp)
+                    )
+                }
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.Center,
+                ) {
+                    Image(
+                        alignment = Alignment.Center,
+                        painter = painterResource(image),
+                        contentDescription = "ImagePin",
+                        modifier = Modifier
+                            .fillMaxWidth()
+                    )
+                }
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .shadow(25.dp)
+                ) {
+                    Text(
+                        text = tituloPin,
+                        style = MaterialTheme.typography.bodyMedium,
+                        modifier = Modifier
+                            .padding(start = 12.dp)
+
+                    )
+                    Column(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalAlignment = Alignment.End,
+                        verticalArrangement = Arrangement.Center
+                    ) {
+                        Row(
+                            horizontalArrangement = Arrangement.End
+                        ) {
+
+                            IconButton(onClick = {
+                                Log.d("botaoHome", "usuario-clicouCurtirPin")
+                            }) {
+                                Icon(
+                                    imageVector = Icons.Default.FavoriteBorder,
+                                    contentDescription = "",
+                                    modifier = Modifier.size(20.dp)
+                                )
+                            }
+                            IconButton(onClick = {
+                                Log.d("botaoSearch", "usuario-clicouComentariosPin")
+                            }) {
+                                Icon(
+                                    imageVector = Icons.Default.MailOutline,
+                                    contentDescription = "",
+                                    modifier = Modifier.size(20.dp)
+                                )
+                            }
+                            IconButton(onClick = {
+                                Log.d("botaoShare", "usuario-clicouCompartilharPin")
+                            }) {
+                                Icon(
+                                    imageVector = Icons.Default.Share,
+                                    contentDescription = "",
+                                    modifier = Modifier.size(20.dp)
+                                )
+                            }
+                            IconButton(onClick = {
+                                Log.d("botao3Dots", "usuario-clicou3Pontinhos")
+                            }) {
+                                Icon(
+                                    imageVector = Icons.Default.MoreVert,
+                                    contentDescription = "",
+                                    modifier = Modifier.size(20.dp)
+                                )
+                            }
+                        }
+                    }
+                }
+                Spacer(modifier = Modifier.height(8.dp))
+
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                ) {
+                    Text(
+                        text = criadorPin,
+                        style = MaterialTheme.typography.bodyMedium,
+                        modifier = Modifier
+                            .padding(start = 12.dp)
+                    )
+                }
+                Spacer(modifier = Modifier.height(16.dp))
+
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                ) {
+                    Text(
+                        text = topComentarioPin,
+                        style = MaterialTheme.typography.bodyMedium,
+                        modifier = Modifier
+                            .padding(start = 36.dp)
+                    )
+                }
+            }
+        }
+    )
 }
