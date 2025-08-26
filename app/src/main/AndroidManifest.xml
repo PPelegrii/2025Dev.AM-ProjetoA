@@ -12,12 +12,17 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Pinlikest">
         <activity
-            android:name=".HomeScreen"
+            android:name=".PinDetailsActivity"
+            android:exported="false"
+            android:label="@string/title_activity_pin_details"
+            android:theme="@style/Theme.Pinlikest" />
+        <activity
+            android:name=".HomeScreenActivity"
             android:exported="false"
             android:label="@string/title_activity_home_screen"
             android:theme="@style/Theme.Pinlikest" />
         <activity
-            android:name=".MainActivity"
+            android:name=".TelaLogoActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.Pinlikest">

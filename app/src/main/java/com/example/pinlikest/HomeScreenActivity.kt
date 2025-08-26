@@ -1,0 +1,207 @@
+package com.example.pinlikest
+
+import android.content.Intent
+import android.os.Bundle
+import android.util.Log
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountCircle
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.MailOutline
+import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.BottomAppBar
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults.topAppBarColors
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import com.example.pinlikest.ui.theme.PinlikestTheme
+
+class HomeScreenActivity : ComponentActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
+        setContent {
+            PinlikestTheme {
+                HomeScreen()
+            }
+        }
+    }
+}
+@OptIn(ExperimentalMaterial3Api::class)
+@Preview(showBackground = true)
+@Composable
+fun HomeScreen() {
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                colors = topAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.primaryContainer,
+                    titleContentColor = MaterialTheme.colorScheme.primary,
+                ),
+                title = { Text("Para Você") }
+            )
+        },
+        bottomBar = {
+            BottomAppBar(
+                containerColor = MaterialTheme.colorScheme.primaryContainer,
+                contentColor = MaterialTheme.colorScheme.primary,
+
+                ) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceAround,
+                ) {
+                    IconButton(onClick = {
+                        Log.d("botaoHome", "usuario-clicouHome_route")
+                    }) {
+                        Icon(
+                            imageVector = Icons.Default.Home,
+                            contentDescription = "",
+                            modifier = Modifier.size(40.dp)
+                        )
+                    }
+                    IconButton(onClick = {
+                        Log.d("botaoSearch", "usuario-clicouSearch_route")
+                    }) {
+                        Icon(
+                            imageVector = Icons.Default.Search,
+                            contentDescription = "",
+                            modifier = Modifier.size(40.dp)
+                        )
+                    }
+                    IconButton(onClick = {
+                        Log.d("botaoCreate/Upload", "usuario-clicouCreate/Upload_route")
+                    }) {
+                        Icon(
+                            imageVector = Icons.Default.Add,
+                            contentDescription = "",
+                            modifier = Modifier.size(40.dp)
+                        )
+                    }
+                    IconButton(onClick = {
+                        Log.d("botaoMessages", "usuario-clicouMessages_route")
+                    }) {
+                        Icon(
+                            imageVector = Icons.Default.MailOutline,
+                            contentDescription = "",
+                            modifier = Modifier.size(40.dp)
+                        )
+                    }
+                    IconButton(onClick = {
+                        Log.d("botaoUserProfile", "usuario-clicouUserProfile_route")
+                    }) {
+                        Icon(
+                            imageVector = Icons.Default.AccountCircle,
+                            contentDescription = "",
+                            modifier = Modifier.size(40.dp)
+                        )
+                    }
+                }
+            }
+        },
+        content = { paddingValues ->
+            Row(
+                verticalAlignment = Alignment.Top,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(paddingValues)
+                    .verticalScroll(rememberScrollState())
+            ) {
+                Column(
+                    Modifier
+                        .padding(8.dp)
+                        .weight(1f)
+                ) {
+                    PinHomeTemplate(image = R.drawable.temp1, descricao  = "eu")
+                    PinHomeTemplate(image = R.drawable.temp4, descricao  = "não")
+                    PinHomeTemplate(image = R.drawable.temp3, descricao  = "acredito")
+                    PinHomeTemplate(image = R.drawable.temp4, descricao  = "nisso")
+                }
+
+                Column(
+                    verticalArrangement = Arrangement.Center,
+                    modifier = Modifier
+                        .padding(8.dp)
+                        .weight(1f)
+                ) {
+                    PinHomeTemplate(image = R.drawable.temp5, descricao  = "q")
+                    PinHomeTemplate(image = R.drawable.temp2, descricao  = "isso")
+                    PinHomeTemplate(image = R.drawable.temp1, descricao  = "aqui")
+                    PinHomeTemplate(image = R.drawable.temp4, descricao  = "funcionou")
+                }
+            }
+        }
+    )
+}
+@Composable
+fun PinHomeTemplate(image: Int, descricao: String) {
+    val context = LocalContext.current
+
+    Image(
+        painter = painterResource(image),
+        contentDescription = "ImagePin",
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(2.dp)
+    )
+    Card(
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surfaceVariant,
+        ),
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(25.dp)
+    ) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceEvenly,
+            modifier = Modifier
+                .padding(2.dp)
+                .fillMaxWidth(),
+        ) {
+            Text(descricao)
+
+            val pinNome = descricao
+            val pinImg = image
+            IconButton(onClick = {
+                    val intent = Intent(context, PinDetailsActivity::class.java)
+                    Log.d("ButaoPin", "UserPinDetailsButton")
+
+                    intent.putExtra("pinNome", pinNome)
+                    intent.putExtra("pinImg", pinImg)
+                    context.startActivity(intent)
+            }) {
+                Icon(imageVector = Icons.Default.MoreVert, contentDescription = "")
+            }
+        }
+    }
+    Spacer(modifier = Modifier.height(8.dp))
+}
