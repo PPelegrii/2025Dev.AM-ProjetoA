@@ -64,7 +64,6 @@ object PinsDatabase {
         Pin(R.drawable.pin53, "Fischl", "", ""),
         Pin(R.drawable.pin54, "RedSword lol", "WallpaperKing", ""),
         Pin(R.drawable.pin55, "My Honest Reaction", "Fozi", "Why are we still here"),
-
         )
 }
 
