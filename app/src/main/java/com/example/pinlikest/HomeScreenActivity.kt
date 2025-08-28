@@ -36,6 +36,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults.topAppBarColors
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -59,6 +60,8 @@ class HomeScreenActivity : ComponentActivity() {
 @Preview(showBackground = true)
 @Composable
 fun HomeScreen() {
+    val pins = remember { PinsDatabase.pinsData.shuffled() }
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -140,33 +143,32 @@ fun HomeScreen() {
                         .padding(8.dp)
                         .weight(1f)
                 ) {
-                    PinHomeTemplate(image = R.drawable.temp1, descricao  = "eu")
-                    PinHomeTemplate(image = R.drawable.temp4, descricao  = "não")
-                    PinHomeTemplate(image = R.drawable.temp3, descricao  = "acredito")
-                    PinHomeTemplate(image = R.drawable.temp4, descricao  = "nisso")
+                    pins.filterIndexed { index, _ -> index % 2 == 0 } // pega os pins pares
+                        .forEach { pin ->
+                            PinHomeTemplate(pin)
+                        }
                 }
-
-                Column(
-                    verticalArrangement = Arrangement.Center,
-                    modifier = Modifier
-                        .padding(8.dp)
-                        .weight(1f)
-                ) {
-                    PinHomeTemplate(image = R.drawable.temp5, descricao  = "q")
-                    PinHomeTemplate(image = R.drawable.temp2, descricao  = "isso")
-                    PinHomeTemplate(image = R.drawable.temp1, descricao  = "aqui")
-                    PinHomeTemplate(image = R.drawable.temp4, descricao  = "funcionou")
+                    Column(
+                        verticalArrangement = Arrangement.Center,
+                        modifier = Modifier
+                            .padding(8.dp)
+                            .weight(1f)
+                    ) {
+                        pins.filterIndexed { index, _ -> index % 2 != 0 } // pega os impares
+                            .forEach { pin ->
+                                PinHomeTemplate(pin)
+                            }
+                    }
                 }
             }
-        }
     )
 }
 @Composable
-fun PinHomeTemplate(image: Int, descricao: String) {
+fun PinHomeTemplate(pin: Pin) {
     val context = LocalContext.current
 
     Image(
-        painter = painterResource(image),
+        painter = painterResource(pin.image),
         contentDescription = "ImagePin",
         modifier = Modifier
             .fillMaxWidth()
@@ -187,16 +189,16 @@ fun PinHomeTemplate(image: Int, descricao: String) {
                 .padding(2.dp)
                 .fillMaxWidth(),
         ) {
-            Text(descricao)
+            Text(pin.pinNome)
 
-            val pinNome = descricao
-            val pinImg = image
             IconButton(onClick = {
                     val intent = Intent(context, PinDetailsActivity::class.java)
                     Log.d("ButaoPin", "UserPinDetailsButton")
 
-                    intent.putExtra("pinNome", pinNome)
-                    intent.putExtra("pinImg", pinImg)
+                    intent.putExtra("pinNome", pin.pinNome)
+                    intent.putExtra("pinImg", pin.image)
+                    intent.putExtra("pinCriador", pin.pinCriador)
+                    intent.putExtra("pinCriador", pin.pinTopComentario)
                     context.startActivity(intent)
             }) {
                 Icon(imageVector = Icons.Default.MoreVert, contentDescription = "")

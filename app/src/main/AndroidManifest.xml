@@ -12,6 +12,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Pinlikest">
         <activity
+            android:name=".Pin"
+            android:exported="false"
+            android:label="@string/title_activity_pin"
+            android:theme="@style/Theme.Pinlikest" />
+        <activity
             android:name=".PinDetailsActivity"
             android:exported="false"
             android:label="@string/title_activity_pin_details"

@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -35,9 +34,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.pinlikest.ui.theme.ui.theme.PinlikestTheme
 
 class PinDetailsActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,8 +43,10 @@ class PinDetailsActivity : ComponentActivity() {
         setContent {
             val pinNome = intent.getStringExtra("pinNome")
             val pinImg = intent.getIntExtra("pinImg",0)
+            val pinCriador = intent.getStringExtra("pinCriador")
+            val pinTopComentario = intent.getStringExtra("pinTopComentario")
             if (pinImg != 0 && pinNome != null){
-                PinDetails(pinNome, pinImg)
+                PinDetails(pinImg, pinNome, pinCriador, pinTopComentario)
             }else{
                Text("moiou. Telefone moiou")
             }
@@ -55,11 +54,8 @@ class PinDetailsActivity : ComponentActivity() {
     }
 }
 @Composable
-fun PinDetails(pinNome: String, pinImg: Int) {
+fun PinDetails(pinImg: Int, pinNome: String, pinCriador: String?, pinTopComentario: String?) {
     val context = LocalContext.current
-
-    val criadorPin = "alguem" // passar como argumento dps
-    val topComentarioPin = "outro alguem" // x2
 
     Scaffold(
         containerColor = MaterialTheme.colorScheme.primaryContainer,
@@ -169,12 +165,14 @@ fun PinDetails(pinNome: String, pinImg: Int) {
                     modifier = Modifier
                         .fillMaxWidth()
                 ) {
-                    Text(
-                        text = criadorPin,
-                        style = MaterialTheme.typography.bodyMedium,
-                        modifier = Modifier
-                            .padding(start = 12.dp)
-                    )
+                    if (pinCriador != null) {
+                        Text(
+                            text = pinCriador,
+                            style = MaterialTheme.typography.bodyMedium,
+                            modifier = Modifier
+                                .padding(start = 12.dp)
+                        )
+                    }
                 }
                 Spacer(modifier = Modifier.height(16.dp))
 
@@ -183,12 +181,14 @@ fun PinDetails(pinNome: String, pinImg: Int) {
                     modifier = Modifier
                         .fillMaxWidth()
                 ) {
-                    Text(
-                        text = topComentarioPin,
-                        style = MaterialTheme.typography.bodyMedium,
-                        modifier = Modifier
-                            .padding(start = 36.dp)
-                    )
+                    if (pinTopComentario != null) {
+                        Text(
+                            text = pinTopComentario,
+                            style = MaterialTheme.typography.bodyMedium,
+                            modifier = Modifier
+                                .padding(start = 36.dp)
+                        )
+                    }
                 }
             }
         }

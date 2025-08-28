@@ -2,4 +2,5 @@
     <string name="app_name">Pinlikest</string>
     <string name="title_activity_home_screen">HomeScreen</string>
     <string name="title_activity_pin_details">PinDetailsActivity</string>
+    <string name="title_activity_pin">Pin</string>
 </resources>
